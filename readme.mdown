@@ -1,14 +1,18 @@
 # OneDrive Downloader (Python)
 
-At this writing (Jan 2023), the OneDrive user interface doesn't make it easy to download, say, just your photos and videos in one go. You typically have to select them item by item, week by week or folder by folder. Or, it tries to create a gigantic Zip file, but maybe your internet connection doesn't like gigantic multi-gigabyte files. 
+At this writing (Jan 2023), the OneDrive user interface makes it hard to download just your photos and videos in one go. You typically have to select each of them, item by item, week by week or folder by folder. 
 
-Have you ever wanted to programmatically list, or download all your files from your OneDrive account via Python? This code will give you a head start.
+Or, maybe you can do one big "select all" operation, but then it tries to create a gigantic Zip file, and maybe your internet connection doesn't like gigantic multi-gigabyte files. 
+
+Have you ever wanted to programmatically list, or download (or even selectively delete or rename) all your files from your OneDrive account via Python? 
+
+This code will give you a head start.
 
 **Disclaimer**: This utility is literally just a few hours of coding, so don't expect it to catch all the edge-cases. 
 
-**Authentication**: Microsoft, like most companies, uses OAuth to grant access. This usually assumes there's a web app of some kind ready to receive the authorization code. But this is a command-line interface utility (CLI). So you'll notice that the process of acquiring an access_token and refresh_token uses a somewhat hacky (but working and completely permissible) method to get the OAuth code. It spins up a web browser to make a request for permission, you grant that permission, and Microsoft's endpoint says "OK, here's a code for you" by redirecting your browser to a "localhost" website which... doesn't exist. So you get an error message in the web page. But fear not. That's expected. All you're really looking for is that "code" parameter in the address bar, and you copy it and paste it into the CLI when prompted. Then, the CLI happily saves this for you, and you're on your way. 
+**Authentication**: Microsoft, like most companies, uses OAuth to grant you access to your stuff. OAuth basically assumes there's a web app ready to receive an authorization code. But this is a mere terminal application, a command-line interface utility (CLI.) So you'll notice that the process of acquiring the **access_token** and **refresh_token** employs a somewhat hacky (but working and completely permissible) method to get the OAuth code. It spins up a web browser to make a request for permission, you grant that permission, and Microsoft's endpoint says "OK, here's a code for you" by redirecting your browser to a "localhost" website which... doesn't exist. So you get an error message in the web page. But fear not. That's expected. All you're really looking for is the magical "code=" parameter in the address bar, and you copy it and paste the value which follows "code=" into the CLI when prompted. 
 
-These steps give you the essential **access_token** and **refresh_token**. 
+From there, the CLI happily saves this for you, and you're on your way. These steps give you the essential **access_token** and **refresh_token**. 
 
 ## Basic components
 
