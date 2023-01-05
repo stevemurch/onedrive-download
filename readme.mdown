@@ -22,7 +22,8 @@ python start.py
 
 This Python utility uses the Microsoft Opengraph API's to traverse the OneDrive folders and download files. The sample code included here begins at ```start.py``` and includes these basic options:
 
-![image-20230104183535310](/Users/steve/Library/Application Support/typora-user-images/image-20230104183535310.png)
+<img width="1226" alt="image" src="https://user-images.githubusercontent.com/9558478/210688866-4023e131-0d46-41a2-a981-49ca4768f7c8.png">
+
 
 
 
