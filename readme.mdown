@@ -18,7 +18,7 @@ From there, the CLI happily saves this for you, and you're on your way. These st
 
 | Filename                  | Role                                                                                                                                               |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| start.py                  | The loader application; the command-line interface.                                                                                                |
+| start.py                  | The loader application; the command-line interface. This is the only code you run directly. It in turn calls the others.                                                                                              |
 | onedrive_authorization.py | Various ways to get the access_token and refresh_token for the Microsoft opengraph                                                                 |
 | generate_list.py          | Code to generate the list of files and folders, to walk the OneDrive folder tree basically                                                         |
 | download_list.py          | Once the file_list.json file is generated, this walks through that file and downloads the items, preserving the file structure as seen on OneDrive |
