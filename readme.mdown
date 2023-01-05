@@ -1,10 +1,10 @@
 # OneDrive Downloader (Python)
 
-At this writing (Jan 2023), there doesn't seem to be an easy way to download, say, all the photos or videos you may have uploaded to OneDrive, in a single go. You typically have to select them item by item, week by week or folder by folder. 
+At this writing (Jan 2023), the OneDrive user interface doesn't seem to make it easy to download, say, all your photos and videos in one go. You typically have to select them item by item, week by week or folder by folder.
 
-Have you ever wanted to programmatically list and/or download all your files from your OneDrive account via Python? This code will give you a head start. 
+Have you ever wanted to programmatically list and/or download all your files from your OneDrive account via Python? This code will give you a head start.
 
-**Disclaimer**: It's literally just a few hours of coding, so don't expect it to catch all the edge-cases; this is merely some jumpstart utility code which was able to download about 5,500+ files for me just fine, and I'm publishing in hopes that it saves you time in what you want to build. Feel free to do submit pull requests with improvements.
+**Disclaimer**: It's literally just a few hours of coding, so don't expect it to catch all the edge-cases. It uses a somewhat hacky (but completely permissible) way to get the OAuth code. But, since it doesn't come with a full blown website, the user-flow is a little stilted -- it opens up a web browser, and you fetch the "code=" parameter in the OAuth callback, and paste that into this utility's terminal interface. This then makes the call back to the opengraph API and gets and saves the all-important **access_token** and **refresh_token**. This method works just fine, and is totally permissible. But it's certainly not (nor is it intended to be) ship-worthy.
 
 ## Basic components
 
@@ -20,21 +20,21 @@ Have you ever wanted to programmatically list and/or download all your files fro
 Basically:
 
 1. Clone this repo.
-2. Create your own "App Registration" with the File.ReadWriteAll permission scope in Azure Portal (this is free.) This gives you two important variables that you need to set as environment variables to run this code. 
-3. Run ```python start.py```
+2. Create your own "App Registration" with the File.ReadWriteAll permission scope in Azure Portal (this is free.) This gives you two important variables that you need to set as environment variables to run this code.
+3. Run `python start.py`
 4. Choose option 1 to get your initial access_token and refresh_token saved locally to your machine. Then choose option 3 (to list all files and create file_list.json on your local machine), then option 4 (to incrementally fetch all the assets listed in file_list.json.)
 
-Voila. That's it. This code should provide a jumping-off point for, say, downloading just the images, or videos, or files with particular attributes. 
+Voila. That's it. This code should provide a jumping-off point for, say, downloading just the images, or videos, or files with particular attributes.
 
-This code will download files into a "downloads" project subfolder, and preserve the folder structure you have on OneDrive. 
+This code will download files into a "downloads" project subfolder, and preserve the folder structure you have on OneDrive.
 
 You'll need to set the root_folder location (search for "root_folder" variable, which is in the generate_list.py file.) In my case, I've started it at:
 
-```root_folder = "/me/drive/root:/P"```
+`root_folder = "/me/drive/root:/P"`
 
-... simply because MY OneDrive folder has top-level A, B, C... Z folder names, and I placed "Pictures" in the "P" folder. But your OneDrive is very unlikely to be set up that way. 
+... simply because MY OneDrive folder has top-level A, B, C... Z folder names, and I placed "Pictures" in the "P" folder. But your OneDrive is very unlikely to be set up that way.
 
-Note that Microsoft's OneDrive has ["special" folder names](https://learn.microsoft.com/en-us/graph/api/drive-get-specialfolder?view=graph-rest-1.0&tabs=http) too, such as "/me/drive/special/{name}", where name="music" or "photos", etc. 
+Note that Microsoft's OneDrive has ["special" folder names](https://learn.microsoft.com/en-us/graph/api/drive-get-specialfolder?view=graph-rest-1.0&tabs=http) too, such as "/me/drive/special/{name}", where name="music" or "photos", etc.
 
 ```bash
 git clone https://github.com/stevemurch/onedrive-download
@@ -42,14 +42,14 @@ cd onedrive-download
 
 // Next, install the requirements.
 // If any of them fail, follow their respective documentation
-// NOTE: This project was built with Python v3.11 
+// NOTE: This project was built with Python v3.11
 
 pip install -r requirements.txt
 
-// Now, to Authorize yourself to modify your OneDrive files, you 
-// need to create an "App Registration" on the Azure Portal. 
+// Now, to Authorize yourself to modify your OneDrive files, you
+// need to create an "App Registration" on the Azure Portal.
 // Create your Azure app via the portal; search for "app registration"
-// Choose a consumer app. Be sure to give your Azure app 
+// Choose a consumer app. Be sure to give your Azure app
 // Files.ReadWriteAll permissions
 
 // Then, once you've got your app created, go find and set the following
@@ -64,21 +64,21 @@ export MS_OPENGRAPH_CLIENT_SECRET=your-client-secret
 
 python start.py
 
-// You'll want to choose Option 1 first, which will create your 
-// access_token and refresh_tokens. 
+// You'll want to choose Option 1 first, which will create your
+// access_token and refresh_tokens.
 
-// Note that access_tokens only last an hour. After that, all fetches to 
-// the MS OpenGraph API will get rejected. I have not yet done the work to 
+// Note that access_tokens only last an hour. After that, all fetches to
+// the MS OpenGraph API will get rejected. I have not yet done the work to
 // automatically generate a new access_token when one is expired. I'm generally
 // assuming you're running steps 1, 3 and 4 in succession, within 60 minutes,
 // before that clock is up. Feel free to enhance this quick and dirty utility
-// to handle this situation more gracefully. 
+// to handle this situation more gracefully.
 
-// Also, sometimes during large file downloads (e.g., videos), you might 
-// get an error. The downloads will simply log that error to a file and move 
+// Also, sometimes during large file downloads (e.g., videos), you might
+// get an error. The downloads will simply log that error to a file and move
 // on to the next one on the list. I've used this to download about 5,560 files
-// and got maybe 6 errors of large videos, easy enough to 
-// handle manually later. 
+// and got maybe 6 errors of large videos, easy enough to
+// handle manually later.
 ```
 
 This Python utility uses the Microsoft Opengraph API's to traverse the OneDrive folders and download files. The sample code included here begins at `start.py` and includes these basic options:
