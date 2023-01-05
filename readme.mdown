@@ -1,0 +1,49 @@
+# OneDrive File and Folder Downloader (Python)
+
+Have you ever wanted to programmatically download files from your OneDrive account? This code will give you a head-start.
+
+
+
+# Getting Started
+
+```bash
+git clone https://github.com/stevemurch/onedrive-download 
+cd onedrive-download
+
+// Create your Azure app via the portal; search for "app registration"
+// be sure to give your Azure app Files.ReadWriteAll permissions 
+// and use the result to SET THE ENVIRONMENT VARIABLES 
+
+export MS_OPENGRAPH_APP_ID=your-app-id
+export MS_OPENGRAPH_CLIENT_SECRET=your-client-secret
+
+python start.py
+```
+
+This Python utility uses the Microsoft Opengraph API's to traverse the OneDrive folders and download files. The sample code included here begins at ```start.py``` and includes these basic options:
+
+![image-20230104183535310](/Users/steve/Library/Application Support/typora-user-images/image-20230104183535310.png)
+
+
+
+| Option | What it does                                                 |
+| ------ | ------------------------------------------------------------ |
+| 1      | Generate access_token and refresh_token and save locally.    |
+| 2      | Using a refresh_token, generate a new access_token           |
+| 3      | Traverse the folder tree and make a list of folders and files. Two .json files, one containing a list of folders, and another containing a list of files, are saved to your local hard drive. |
+| 4      | Walk through the list of files and fetch them one by one, and save to local disk. |
+
+This is working on a local machine, but does include one hardcoded path to my own "P/Pictures" folder. You'll want to double-check the root path. 
+
+## Prerequisites
+
+Written in Python 3.11. Some of the included libraries require 3.1 or above; this will not work in Python 2.x. 
+
+The app looks for two key environment variables:
+
+```MS_OPENGRAPH_APP_ID``` and 
+
+```MS_OPENGRAPH_CLIENT_SECRET```
+
+To generate these, go to the Azure Portal, and type in "app registrations". Create a new app registration, and new client secrets for them. Save these values to your local environment variables. 
+
