@@ -1,8 +1,10 @@
-# OneDrive File and Folder Downloader (Python)
+# OneDrive Downloader (Python)
 
-There doesn't seem to be an easy way to download, say, all the photos or videos uploaded to OneDrive in a single go. You typically have to select them week by week or folder by folder. 
+At this writing (Jan 2023), there doesn't seem to be an easy way to download, say, all the photos or videos you may have uploaded to OneDrive, in a single go. You typically have to select them item by item, week by week or folder by folder. 
 
-Have you ever wanted to programmatically download files from your OneDrive account via Python? This code will give you a head-start. It's literally just a few hours of coding, so don't expect it to catch all the edge-cases; this is merely some jumpstart code which was able to download about 5,500+ files for me just fine, and I'm publishing in hopes that it saves you time in what you want to build. Feel free to do submit pull requests with improvements.
+Have you ever wanted to programmatically list and/or download all your files from your OneDrive account via Python? This code will give you a head start. 
+
+**Disclaimer**: It's literally just a few hours of coding, so don't expect it to catch all the edge-cases; this is merely some jumpstart utility code which was able to download about 5,500+ files for me just fine, and I'm publishing in hopes that it saves you time in what you want to build. Feel free to do submit pull requests with improvements.
 
 ## Basic components
 
@@ -14,6 +16,25 @@ Have you ever wanted to programmatically download files from your OneDrive accou
 | download_list.py          | Once the file_list.json file is generated, this walks through that file and downloads the items, preserving the file structure as seen on OneDrive |
 
 # Getting Started
+
+Basically:
+
+1. Clone this repo.
+2. Create your own "App Registration" with the File.ReadWriteAll permission scope in Azure Portal (this is free.) This gives you two important variables that you need to set as environment variables to run this code. 
+3. Run ```python start.py```
+4. Choose option 1 to get your initial access_token and refresh_token saved locally to your machine. Then choose option 3 (to list all files and create file_list.json on your local machine), then option 4 (to incrementally fetch all the assets listed in file_list.json.)
+
+Voila. That's it. This code should provide a jumping-off point for, say, downloading just the images, or videos, or files with particular attributes. 
+
+This code will download files into a "downloads" project subfolder, and preserve the folder structure you have on OneDrive. 
+
+You'll need to set the root_folder location (search for "root_folder" variable, which is in the generate_list.py file.) In my case, I've started it at:
+
+```root_folder = "/me/drive/root:/P"```
+
+... simply because MY OneDrive folder has top-level A, B, C... Z folder names, and I placed "Pictures" in the "P" folder. But your OneDrive is very unlikely to be set up that way. 
+
+Note that Microsoft's OneDrive has ["special" folder names](https://learn.microsoft.com/en-us/graph/api/drive-get-specialfolder?view=graph-rest-1.0&tabs=http) too, such as "/me/drive/special/{name}", where name="music" or "photos", etc. 
 
 ```bash
 git clone https://github.com/stevemurch/onedrive-download
